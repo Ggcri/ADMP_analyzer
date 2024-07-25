@@ -1,0 +1,1 @@
+-f testfile -gb -rmsd -at_ids 1 5 10 -gnu x_un boh y_un boh -ref_f 19
