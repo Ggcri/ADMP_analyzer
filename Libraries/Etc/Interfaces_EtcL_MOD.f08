@@ -21,16 +21,16 @@ module Etc_utilities_interface
         type(opt_flags),dimension(:),intent(out) :: Opt_vec 
         end subroutine 
 
-        subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
+        subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,space_dist,x_val)
             implicit none 
-            real,intent(in),dimension(:) :: fx      ! VECTOR WITH F(X) VALUES
-            logical,intent(out) :: Gnu_Flag         ! SIGNALING FLAG FOR EXCEPTIONS HANDLING 
-            character(len=*),intent(in) ::  Gnu_opt ! STRING CONTAINING USER DEFINED GNU OPTIONS 
-            logical,intent(in) :: Op_flag           ! OPERATIVE MODE FLAG :
-                                                    ! IF TRUE THE USER GIVE IN INPUT SOME GNU OPTIONS
-                                                    ! IF FALSE DEFAULT MODE SELECTED 
-            real,intent(in),optional :: Start_x, &  ! STARTING VALUE OF X (1 IF NOT PRESENT) 
-                                        spacing     ! SPACING BETWEEN X VALUES (1 IF NOT PRESENT)
+            real,intent(in),dimension(:) :: fx            ! VECTOR WITH F(X) VALUES
+            logical,intent(out) :: Gnu_Flag               ! SIGNALING FLAG FOR EXCEPTIONS HANDLING 
+            character(len=*),intent(in) ::  Gnu_opt       ! STRING CONTAINING USER DEFINED GNU OPTIONS 
+            logical,intent(in) :: Op_flag                 ! OPERATIVE MODE FLAG :
+                                                          ! IF TRUE THE USER GIVE IN INPUT SOME GNU OPTIONS
+                                                          ! IF FALSE DEFAULT MODE SELECTED 
+            real,intent(in),optional :: Start_x, &        ! STARTING VALUE OF X (1 IF NOT PRESENT) 
+                                        space_dist        ! SPACING BETWEEN X VALUES (1 IF NOT PRESENT)
                                         
             real,intent(in),dimension(:),optional :: x_val   ! VECTOR WITH X VALUES 
         end subroutine Gnu_plot
