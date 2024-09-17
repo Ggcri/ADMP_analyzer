@@ -1,4 +1,4 @@
-subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
+subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,x_spacing,x_val)
     implicit none 
     real,intent(in),dimension(:) :: fx      ! VECTOR WITH F(X) VALUES
     logical,intent(out) :: Gnu_Flag         ! SIGNALING FLAG FOR SUBROUTINE EXCEPTIONS HANDLING 
@@ -7,7 +7,7 @@ subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
                                             ! IF TRUE THE USER GIVE IN INPUT SOME GNU OPTIONS
                                             ! IF FALSE DEFAULT MODE SELECTED 
     real,intent(in),optional :: Start_x, &  ! STARTING VALUE OF X (1 IF NOT PRESENT) 
-                                spacing     ! SPACING BETWEEN X VALUES (1 IF NOT PRESENT)
+                                x_spacing     ! SPACING BETWEEN X VALUES (1 IF NOT PRESENT)
                                 
     real,intent(in),dimension(:),optional :: x_val   ! VECTOR WITH X VALUES 
     
@@ -17,7 +17,7 @@ subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
     
     character(len=28) :: G_script_file=' '  ! .GP SCRIPT FILE NAME
     
-    integer ::  gnu_stat,   &   ! CONTROL VARIABLE FOR EXECUTE COMMAND LINE 
+    integer ::  gnu_stat,   &   ! CONTROL VARIABLE FOR EXECUTE COMMAND LINE CONNECTED TO GNUPLOT EXECUTION
                 unit_id,    &   ! UNIT IDENTIFIER OF SCRIPT.gp FILE
                 ios,        &   ! CONTROL VARIABLE FOR OPEN STATEMENT
                 i               ! COUNTER 
@@ -38,12 +38,14 @@ subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
                                     y_un        
     integer :: lt=1 ! LINE COLOR TYPE       
     real    :: lw=2.5 ! LINE WIDTH 
+    logical :: ExistStat=.false. 
 
     
 
 
     ! START
     Gnu_Flag=.FALSE. 
+    ! COMMENTED SECTION
     ! call get_environment_variable('HOME',status=gnu_stat)
     ! if (gnu_stat .eq. 1) then
         ! print *, 'ERROR : gnuplot environment variable does not exist ' 
@@ -52,12 +54,19 @@ subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
     ! end if
     call date_and_time(date,time)
     date=(date(1:4)//'_'//date(5:6)//'_'//date(7:8))
-    print *, date//'iii'
+    ! print *, date//'iii'
     time=(time(1:2)//'_'//time(3:4))
-    print *,time//'iii'
+    ! print *,time//'iii'
     G_script_file='Gpscript_'//date//'_'//time//'.plt' 
     open(newunit=unit_id,file=G_script_file,status='unknown',action='write',iostat=ios)
     if (ios .ne. 0) then 
+        inquire(unit_id,exist=ExistStat)
+        if (.not. ExistStat) then 
+          write(Err_msg,'(a,1x,a,1x,a)') 'File', trim(G_script_file), 'does not exist' 
+          write(*,'(a,/,a)') 'ERROR: ',Err_msg 
+          Gnu_Flag=.TRUE. 
+          return 
+        end if 
         inquire(unit_id,iomsg=Err_msg)
         write(*,'(a,/,a)') 'ERROR: ',Err_msg 
         Gnu_Flag=.TRUE. 
@@ -68,7 +77,8 @@ subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
         ! READING OF USER OPTIONS 
         do i=1,size(label_vec)
         ! OVERRIDING OF USER OPTIONS IN LABEL VECTOR 
-            read(Gnu_opt (  index(Gnu_opt,trim(label_vec(i)))+len_trim(label_vec(i))+1:),* ) label_vec(i)
+                          ! INTERNAL FILE SPECIFICATION                                 LIST DIRECTED I/O
+            read(Gnu_opt (  index(Gnu_opt,trim(label_vec(i)))  +len_trim(label_vec(i))+1:),    * ) label_vec(i)
         end do 
     else 
         ! DEFAULT MODE
@@ -96,8 +106,8 @@ subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,spacing,x_val)
     open(unit=15,file=label_vec(6),action='write',status='unknown') 
     
     ! CHECK FOR PRESENCE OF OPTIONAL ARGUMENT 
-     if (present(Start_x) .eqv. .true.)     l_Start_x=Start_x   ! SET LOCAL STARTING X VALUE
-     if (present(spacing) .eqv. .true.)     l_spacing=spacing   ! SET LOCAL SPACING OF X VALUES
+     if (present(Start_x) .eqv. .true.)       l_Start_x=Start_x   ! SET LOCAL STARTING X VALUE
+     if (present(x_spacing) .eqv. .true.)     l_spacing=x_spacing   ! SET LOCAL SPACING OF X VALUES
 
      ! IF PRESENT THE X VALUES VECTOR 
      if (present(x_val)   .eqv. .true.) then

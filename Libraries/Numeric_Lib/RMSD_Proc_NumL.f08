@@ -1,8 +1,8 @@
-! GOAL :      GIVEN A REFEREMENT STRUCTURE X(T1) (FOR INSTANCE THE COORDINATE VECTOR AT REFERENCE TIME T1)
-            ! THE GOAL OF THIS PROCEDURE IS TO COMPUTE THE ROOT MEAN SQUARE DINSTANCE OF THE SAME STRUCTURE
+! GOAL :      GIVEN A REFERENCE STRUCTURE X(T1) (FOR INSTANCE THE COORDINATE VECTOR AT REFERENCE TIME T1)
+            ! THE GOAL OF THIS PROCEDURE IS TO COMPUTE THE ROOT MEAN SQUARE DISTANCE OF THE SAME STRUCTURE
             ! AT DIFFERENT TIME RESPECT X(Ti) (WHERE Ti INDICATES THE TIME STEP) 
             ! THE USER SHOULD BE ABLE TO DEFINE THE GROUP OF ATOMS OF INTEREST (ALL MOLECULE BY DEFAULT) 
-            ! AND THE REFERENCE STRUCTURE, FOR INSTANCE THE TIME STEP OF REFEREMENT (FIRST STRUCTURE BY DEFAULT) 
+            ! AND THE REFERENCE STRUCTURE, FOR INSTANCE THE TIME STEP OF REFERENCE (FIRST STRUCTURE BY DEFAULT) 
             ! THE FORMULA USED IN THIS PROCEDURE IS SHOWED HERE:
             ! Schreiner W, Karch R, Knapp B, Ilieva N. Relaxation estimation of RMSD in molecular dynamics immunosimulations.
             ! Comput Math Methods Med. 2012;2012:173521. 
@@ -21,9 +21,9 @@ subroutine sp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     ! DUMMY SECTION 
     real(kind=real32),intent(in), dimension(:) :: coord 
     integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids ! out necessary since default value must be given
-    integer(kind=int8),intent(inout) ::    Step_Num    ,&  ! MAXIMUM STEP NUMBER 
-                                Natoms          ! ATOM NUMBER
-    integer,intent(in),optional ::  REF_t       ! TIME STEP OF REFEREMENT STRUCTURE
+    integer(kind=int8),intent(inout) ::     Step_Num    ,&  ! MAXIMUM STEP NUMBER 
+                                            Natoms          ! ATOM NUMBER
+    integer,intent(in),optional ::  REF_t       ! TIME STEP OF REFERENCE STRUCTURE
     real(kind=real32),intent(out),dimension(:),allocatable :: rmsd_vec
 
     ! LOCAL SECTION 
@@ -45,7 +45,7 @@ subroutine sp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     
     ! DEFAULT MODE  : NO ATOM IDS OR REFERENCE FRAME GIVEN IN INPUT. IN THIS CASE COORD=Xt_vec
         if ( (.not. present(At_ids) ) .and. (.not. present(REF_t) ) ) then 
-            Xr_vec= reshape (spread(coord(1:Natoms*3),2 ,Step_Num ),(/size(coord)/) ) ! COPY OF REFEREMENT STRUCTURE DATA IN
+            Xr_vec= reshape (spread(coord(1:Natoms*3),2 ,Step_Num ),(/size(coord)/) ) ! COPY OF REFERENCE STRUCTURE DATA IN
             ! Xr_vec=coord(1:Natoms)
             Xt_vec=coord
     ! END DEFAULT MODE
@@ -126,7 +126,7 @@ subroutine dp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids ! out necessary since default value must be given
     integer(kind=int8),intent(inout) ::    Step_Num    ,&  ! MAXIMUM STEP NUMBER 
                                 Natoms          ! ATOM NUMBER
-    integer,intent(in),optional ::  REF_t       ! TIME STEP OF REFEREMENT STRUCTURE
+    integer,intent(in),optional ::  REF_t       ! TIME STEP OF REFERENCE STRUCTURE
     real(kind=real64),intent(out),dimension(:),allocatable :: rmsd_vec
 
     ! LOCAL SECTION 
@@ -148,7 +148,7 @@ subroutine dp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     
     ! DEFAULT MODE  : NO ATOM IDS OR REFERENCE FRAME GIVEN IN INPUT. IN THIS CASE COORD=Xt_vec
         if ( (.not. present(At_ids) ) .and. (.not. present(REF_t) ) ) then 
-            Xr_vec= reshape (spread(coord(1:Natoms*3),2 ,Step_Num ),(/size(coord)/) ) ! COPY OF REFEREMENT STRUCTURE DATA IN
+            Xr_vec= reshape (spread(coord(1:Natoms*3),2 ,Step_Num ),(/size(coord)/) ) ! COPY OF REFERENCE STRUCTURE DATA IN
             ! Xr_vec=coord(1:Natoms)
             Xt_vec=coord
     ! END DEFAULT MODE
@@ -230,7 +230,7 @@ subroutine qp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids ! out necessary since default value must be given
     integer(kind=int8),intent(inout) ::    Step_Num    ,&  ! MAXIMUM STEP NUMBER 
                                 Natoms          ! ATOM NUMBER
-    integer,intent(in),optional ::  REF_t       ! TIME STEP OF REFEREMENT STRUCTURE
+    integer,intent(in),optional ::  REF_t       ! TIME STEP OF REFERENCE STRUCTURE
     real(kind=real128),intent(out),dimension(:),allocatable :: rmsd_vec
 
     ! LOCAL SECTION 
@@ -252,7 +252,7 @@ subroutine qp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     
     ! DEFAULT MODE  : NO ATOM IDS OR REFERENCE FRAME GIVEN IN INPUT. IN THIS CASE COORD=Xt_vec
         if ( (.not. present(At_ids) ) .and. (.not. present(REF_t) ) ) then 
-            Xr_vec= reshape (spread(coord(1:Natoms*3),2 ,Step_Num ),(/size(coord)/) ) ! COPY OF REFEREMENT STRUCTURE DATA IN
+            Xr_vec= reshape (spread(coord(1:Natoms*3),2 ,Step_Num ),(/size(coord)/) ) ! COPY OF REFERENCE STRUCTURE DATA IN
             ! Xr_vec=coord(1:Natoms)
             Xt_vec=coord
     ! END DEFAULT MODE

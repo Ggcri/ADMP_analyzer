@@ -24,7 +24,7 @@ character(len=3) :: Units               ! UNITS IDENTIFIER FOR DISTANCE/ANGLES I
 
 ! G_LOG_INPUT SUB ACTUAL ARGUMENTS 
 integer(kind=int8) :: At_Num             ! NUMBER OF ATOMS
-integer(kind=int8) :: Step_Num           ! NUMBER OG F STEP
+integer(kind=int8) :: Step_Num           ! NUMBER OF STEPS
 logical :: IO_INPUT_ERROR=.FALSE.       ! FATAL ERROR FLAG FOR G_LOG_INPUT_SUBROUTINE 
 ! G_BIN_INPUT ACTUAL ARGUMENTS 
 character(len=132) :: Bin_filename

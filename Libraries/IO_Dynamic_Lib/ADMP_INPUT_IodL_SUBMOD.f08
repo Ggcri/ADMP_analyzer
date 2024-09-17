@@ -4,8 +4,8 @@ module procedure G_Log_Check
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! THE SCOPE OF G_LOG_
 ! CHECK IS TO PERFORM    
-! A CH  &ECK OF .LOG FILES AND IF REQUIRED  !
-! REt  AD THE UNITS USED FOR ANGLES AND     ! 
+! A CHECK OF .LOG FILES AND IF REQUIRED     !
+! READ THE UNITS USED FOR ANGLES AND        ! 
 ! DISTANCES IN Z-MATRIX                     !
 !  HALTING PROBLEMS HANDLING FOR I/O        !
 ! OPERATION                                 !
@@ -17,14 +17,14 @@ module procedure G_Log_Check
 ! subroutine G_Log_check_sub BODY
 !LOCAL SECTION 
     implicit none
-        logical ::  Exist_b   ! FILE EXISTANCE BOOLEAN
+        logical ::  Exist_b         ! FILE EXISTANCE BOOLEAN
         integer     ::  k, &        ! COUNTER
                         ios,&       ! Input output status index
                         F_Unit,&    ! FILE UNIT INDENTIFIER
                         Char_id     ! CHARACTER INDEX FOR SUBSTRING SEARCH IN STRING
         character(len=2)    ::      User_opt_CHECK    ! USER OPTION FOR FILE PROCESSING IF NO NORMAL TERMINATION IS CHECKED
         character(len=256)  ::      Err_msg, &  ! ERROR MESSAGE FOR IO OP
-                            Line        ! LINE FOR IO OPERATION
+                                    Line        ! LINE FOR IO OPERATION
         character(len=17)   ::      Units_char  ! UNITS SUBSTRING 'UNITS=UNITSOPT'
         character(len=20)   ::      G_version='ES64L-GDVRevJ.02'
     IO_CHECK_ERROR=.FALSE.
@@ -141,6 +141,7 @@ module procedure dpG_Log_Input
     data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
     !START 
     inquire(file=filename,number=F_unit)
+    ! INPUT OF STEP NUMBER AND ATOM NUMBER S
     do  
         read(F_unit,*) line
         if (index(line,trig2) /= 0) then

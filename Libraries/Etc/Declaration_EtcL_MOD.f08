@@ -3,17 +3,18 @@ module Etc_utilities_declaration
     implicit none 
 ! PARSING ACTUAL ARGUMENTS 
     type opt_flags
-        character(len=:),allocatable :: label
-        logical :: flag=.false.
+      ! DATA TYPE TO HANLDE THE KEYWORDS TO PARSE
+        character(len=:),allocatable :: label ! LABEL NAME OF THE KEYWORD
+        logical :: flag=.false.               ! KEYWORD PRESENCE FLAG
     end type opt_flags
-    integer,parameter :: opt_num= 6
-    type(opt_flags),dimension(opt_num) :: Opt_vec
+    integer,parameter :: opt_num= 6           ! NUMBER OF MANDATORY ARGUMENTS
+    type(opt_flags),dimension(opt_num) :: Opt_vec ! ARRAY OF DERIVED TYPE, TO CONTAIN THE MANDATORY KEY-VAL OBJECT
     logical :: PARSING_FLAG
-    integer :: Ref_f
-    integer(kind=int8),dimension(:),allocatable :: Atom_ids
-    character(len=132) :: Gnu_opt
+    integer :: Ref_f ! REFERENCE FRAME OF THE DYNAMIC 
+    integer(kind=int8),dimension(:),allocatable :: Atom_ids ! ATOM GROUP IDENTIFIER
+    character(len=132) :: Gnu_opt ! STRING CONTAINING USER DEFINED GNU OPTIONS 
 ! GNU_plot actual arguments
-    logical :: Gnu_flag 
-    logical :: Op_flag 
+    logical :: Gnu_flag ! FLAG FOR EXCEPTION HANDLING
+    logical :: Op_flag  ! FLAG FOR EXCEPTION HANDLING
 
 end module Etc_utilities_declaration

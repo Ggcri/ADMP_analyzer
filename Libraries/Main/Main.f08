@@ -22,14 +22,14 @@
                         reffrfla    => Opt_vec(6)%flag      )   
 
 
-            ! CHECK FOR EXTENTION 
+            ! CHECK FOR EXTENSION 
             select case  (logfilename( len_trim( logfilename )-3 : ) )
             case ('.log')
                   call G_Log_Check(logfilename,IO_CHECK_ERROR,Normal_term)
 
                   if (IO_CHECK_ERROR) stop 'ERROR TERMINATION VIA G_LOG_CHECK SUBPROGRAM'
                   
-                   call G_LOG_INPUT( logfilename,At_Num,Step_Num,Coord,vel,Normal_term,IO_INPUT_ERROR)
+                   call G_LOG_INPUT(logfilename,At_Num,Step_Num,Coord,vel,Normal_term,IO_INPUT_ERROR)
 
                    if (binflag) then 
                   ! BIN GENERATION BRANCH

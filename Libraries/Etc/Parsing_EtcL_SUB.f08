@@ -1,6 +1,4 @@
 subroutine Parsing(Opt_vec,Gnu_opt, PARSING_FLAG,Atom_ids,Ref_f)
-    ! TO-DO IMPORTARE IN MODULO DI ETC UTILITIES IL DERIVED TYPE (NON LA STRUTTURA)
-    ! DOPO FARE UN USO DEL MODULO 
 use Etc_utilities_interface, only : Up_to_low,opt_flags
 use, intrinsic :: iso_fortran_env, only : compiler_version,int8
 implicit none
@@ -70,7 +68,7 @@ opt: do
         case ('-h','--help')
             i=i+1
             call documentation()
-            stop 0 
+            stop 0 ! side-effect voluto
         case ('-rmsd','--rmsd')
             Opt_vec(3)=opt_flags(label=paropt,flag=.true.)            
             i=i+1
@@ -110,7 +108,9 @@ opt: do
                 end if
                 j=j+1
             end do
-        ! READING OF GNU PLOT OPTIONS. S 
+        !!!!!!!!!   GNUPLOT    !!!!!!!!! 
+
+        ! READING OF GNU PLOT OPTIONS. 
         ! PLEASE NOTE THAT FOR THE GNU PLOT 
         ! SUBROUTINE SOME OPTION ARE MANDATORY SO THERE WILL BE A CONTROL
         ! SECTION ON THESE 
@@ -204,7 +204,7 @@ contains
 subroutine  documentation()
     implicit none 
     
-    write(*, 1000) 'COMPILER VERSION USED: GCC version 8.4.0'
+    write(*,1001) 'COMPILER VERSION USED:',compiler_version()
     write(*,1000) 'INPUT SECTION:'
     write(*,1000) 'Type 1: DEFAULT MODE'
     
@@ -241,6 +241,7 @@ subroutine  documentation()
     
     
     1000 format ( /,77("-"),/,a,/,77("-") ) 
+    1001 format ( /,77("-"),/,a,3x,a,/,77("-") ) 
     1002 format (("key: ",a,1x,'-->',1x,*(a,/,16x)  ) )
 
 end subroutine documentation 

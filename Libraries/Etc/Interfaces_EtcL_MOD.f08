@@ -6,13 +6,13 @@ module Etc_utilities_interface
     interface
     function Up_to_low(string)
         character(len=*),intent(in) :: string 
-        character(len=len_trim(string)) :: Up_to_low
+        character(len=len_trim(string)) :: Up_to_low ! RESULT ACTUALLY IS NOT PART OF INTERFACE BUT I LIKE IT
     end function Up_to_low
     end interface
     
     interface 
     subroutine Parsing(Opt_vec,Gnu_opt,PARSING_FLAG,Atom_ids,Ref_f)
-        import :: opt_flags,int8
+        import :: opt_flags,int8 ! INTERFACES HAS NO HOST AND RECURSIVE USE ASSOCIATION NOT PERMITTED
         implicit none
         integer,intent(out) :: Ref_f 
         logical,intent(out) :: PARSING_FLAG
