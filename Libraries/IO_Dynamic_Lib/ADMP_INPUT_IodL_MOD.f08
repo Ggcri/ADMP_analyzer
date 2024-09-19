@@ -1,6 +1,6 @@
 module ADMP_INPUT_MOD 
 use, non_intrinsic :: Etc_utilities_interface, only : Up_to_low
-use, intrinsic :: iso_fortran_env, only : real32,real64,real128,int8
+use, intrinsic :: iso_fortran_env, only : real32,real64,real128,int8,int16
 private dpG_Log_Input,spG_Log_Input,qpG_Log_Input, &  ! ACCESSIBLE PROCEDURES ONLY BY MEAN OF GENERIC INTERFACE
         spG_Bin_Input,dpG_Bin_Input,qpG_Bin_Input
     !INTERFACE TO SEPARATE MODULE SUBROUTINE
@@ -18,7 +18,7 @@ private dpG_Log_Input,spG_Log_Input,qpG_Log_Input, &  ! ACCESSIBLE PROCEDURES ON
     interface G_Log_Input
         module subroutine dpG_Log_Input(filename,At_Num,Step_Num,Coord,vel,Normal_flag,IO_INPUT_ERROR)
                 integer(kind=int8),intent(out) ::    At_Num      ! ATOM NUMBER
-                integer(kind=int8),intent(out) ::    Step_Num    ! STEP NUMBER
+                integer(kind=int16),intent(out) ::    Step_Num    ! STEP NUMBER
                 real(kind=real64),dimension(:),allocatable,intent(out) :: Coord,vel     ! ATOM COORDINATES NUMBER
                 logical,intent(out) :: IO_INPUT_ERROR
                 character(len=*), intent(in) :: filename    ! LOGFILENAME
@@ -27,7 +27,7 @@ private dpG_Log_Input,spG_Log_Input,qpG_Log_Input, &  ! ACCESSIBLE PROCEDURES ON
 
         module subroutine spG_Log_Input(filename,At_Num,Step_Num,Coord,vel,Normal_flag,IO_INPUT_ERROR)
             integer(kind=int8),intent(out) ::    At_Num      ! ATOM NUMBER
-            integer(kind=int8),intent(out) ::    Step_Num    ! STEP NUMBER
+            integer(kind=int16),intent(out) ::    Step_Num    ! STEP NUMBER
             real(kind=real32),dimension(:),allocatable,intent(out) :: Coord,vel     ! ATOM COORDINATES NUMBER
             logical,intent(out) :: IO_INPUT_ERROR
             character(len=*), intent(in) :: filename    ! LOGFILENAME
@@ -36,7 +36,7 @@ private dpG_Log_Input,spG_Log_Input,qpG_Log_Input, &  ! ACCESSIBLE PROCEDURES ON
 
         module subroutine qpG_Log_Input(filename,At_Num,Step_Num,Coord,vel,Normal_flag,IO_INPUT_ERROR)
             integer(kind=int8),intent(out) ::    At_Num      ! ATOM NUMBER
-            integer(kind=int8),intent(out) ::    Step_Num    ! STEP NUMBER
+            integer(kind=int16),intent(out) ::    Step_Num    ! STEP NUMBER
             real(kind=real128),dimension(:),allocatable,intent(out) :: Coord,vel     ! ATOM COORDINATES NUMBER
             logical,intent(out) :: IO_INPUT_ERROR
             character(len=*), intent(in) :: filename    ! LOGFILENAME
@@ -51,7 +51,8 @@ private dpG_Log_Input,spG_Log_Input,qpG_Log_Input, &  ! ACCESSIBLE PROCEDURES ON
         character(len=*),intent(in) :: Bin_filename 
         real(kind=real32),dimension(:),allocatable,intent(out) :: coord_vec,vel_vec
         logical,intent(out) :: Bin_in_flag
-        integer(kind=int8),intent(out) :: Natoms,Nsteps
+        integer(kind=int8),intent(out) :: Natoms
+        integer(kind=int16),intent(out) :: Nsteps
     end subroutine spG_Bin_Input
 
 ! TO MODIFY AFTER 
@@ -60,7 +61,8 @@ private dpG_Log_Input,spG_Log_Input,qpG_Log_Input, &  ! ACCESSIBLE PROCEDURES ON
         character(len=*),intent(in) :: Bin_filename 
         real(kind=real64),dimension(:),allocatable,intent(out) :: coord_vec,vel_vec 
         logical,intent(out) :: Bin_in_flag
-        integer(kind=int8),intent(out) :: Natoms,Nsteps
+        integer(kind=int8),intent(out) :: Natoms
+        integer(kind=int16),intent(out) :: Nsteps
     end subroutine dpG_Bin_Input
 
 
@@ -68,7 +70,8 @@ private dpG_Log_Input,spG_Log_Input,qpG_Log_Input, &  ! ACCESSIBLE PROCEDURES ON
         character(len=*),intent(in) :: Bin_filename 
         real(kind=real128),dimension(:),allocatable,intent(out) :: coord_vec,vel_vec
         logical,intent(out) :: Bin_in_flag
-        integer(kind=int8),intent(out) :: Natoms,Nsteps
+        integer(kind=int8),intent(out) :: Natoms
+        integer(kind=int16),intent(out) :: Nsteps
 
     end subroutine qpG_Bin_Input
 

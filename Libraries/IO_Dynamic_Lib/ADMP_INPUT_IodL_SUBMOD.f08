@@ -138,7 +138,9 @@ module procedure dpG_Log_Input
     ! DUMMY INIZIALIZATION
     At_Num=0_int8 ; Step_Num=0_int8
     IO_INPUT_ERROR=.FALSE. 
-    data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
+    ! Changed data since obsolescent
+    ! data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
+    trig1 = 'Charge' ; trig2 = 'Maximum' ; trig3 = 'Cartesian coordinates:' ; trig4 = 'NAtoms='
     !START 
     inquire(file=filename,number=F_unit)
     ! INPUT OF STEP NUMBER AND ATOM NUMBER S
@@ -252,7 +254,8 @@ module procedure spG_Log_Input
     ! DUMMY INIZIALIZATION
     At_Num=0_int8 ; Step_Num=0_int8
     IO_INPUT_ERROR=.FALSE. 
-    data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
+    ! data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
+    trig1 = 'Charge' ; trig2 = 'Maximum' ; trig3 = 'Cartesian coordinates:' ; trig4 = 'NAtoms='
     !START 
     inquire(file=filename,number=F_unit)
     do  
@@ -365,7 +368,8 @@ module procedure qpG_Log_Input
     ! DUMMY INIZIALIZATION
     At_Num=0_int8 ; Step_Num=0_int8
     IO_INPUT_ERROR=.FALSE. 
-    data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
+    ! data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
+    trig1 = 'Charge' ; trig2 = 'Maximum' ; trig3 = 'Cartesian coordinates:' ; trig4 = 'NAtoms='
     !START 
     inquire(file=filename,number=F_unit)
     do  

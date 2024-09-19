@@ -8,7 +8,7 @@
 !           AND NSTEPS IN INTERNAL REPRESENTATION FILE 
 ! ------------------------------------------------------------------ 
 subroutine spBin_gen(log_filename,coord,vel,Bin_filename,Natoms,Nsteps,bingen_flag)
-    use, intrinsic :: iso_fortran_env, only : real32,int8
+    use, intrinsic :: iso_fortran_env, only : real32,int8,int16
     use, non_intrinsic :: Etc_utilities_interface, only : Up_to_low
     implicit none
     ! DECLARATIN SECTION
@@ -17,7 +17,8 @@ subroutine spBin_gen(log_filename,coord,vel,Bin_filename,Natoms,Nsteps,bingen_fl
             real(kind=real32),dimension(:),intent(in) :: vel
             real(kind=real32),dimension(:),intent(in) :: coord  ! COORDINATES VECTOR 
             character(len=*),intent(in) :: log_filename ! LOG_FILENAME 
-            integer(kind=int8),intent(in) :: Natoms, Nsteps 
+            integer(kind=int16),intent(in) ::  Nsteps 
+            integer(kind=int8),intent(in) :: Natoms
             character(len=*),intent(out) :: Bin_filename
             logical,intent(out) :: bingen_flag 
             
@@ -85,7 +86,7 @@ end subroutine spBin_gen
 
 
 subroutine dpBin_gen(log_filename,coord,vel,Bin_filename,Natoms,Nsteps,bingen_flag)
-    use, intrinsic :: iso_fortran_env, only : real64,int8
+    use, intrinsic :: iso_fortran_env, only : real64,int8,int16
     use, non_intrinsic :: Etc_utilities_interface, only : Up_to_low
     implicit none
     ! DECLARATIN SECTION
@@ -94,7 +95,8 @@ subroutine dpBin_gen(log_filename,coord,vel,Bin_filename,Natoms,Nsteps,bingen_fl
             real(kind=real64),dimension(:),intent(in) :: vel
             real(kind=real64),dimension(:),intent(in) :: coord  ! COORDINATES VECTOR 
             character(len=*),intent(in) :: log_filename ! LOG_FILENAME 
-            integer(kind=int8),intent(in) :: Natoms, Nsteps 
+            integer(kind=int16),intent(in) ::  Nsteps 
+            integer(kind=int8),intent(in) :: Natoms
             character(len=*),intent(out) :: Bin_filename
             logical,intent(out) :: bingen_flag 
             
@@ -164,7 +166,7 @@ end subroutine dpBin_gen
 
 
 subroutine qpBin_gen(log_filename,coord,vel,Bin_filename,Natoms,Nsteps,bingen_flag)
-    use, intrinsic :: iso_fortran_env, only : real128,int8
+    use, intrinsic :: iso_fortran_env, only : real128,int8,int16
     use, non_intrinsic :: Etc_utilities_interface, only : Up_to_low
     implicit none
     ! DECLARATIN SECTION
@@ -173,7 +175,8 @@ subroutine qpBin_gen(log_filename,coord,vel,Bin_filename,Natoms,Nsteps,bingen_fl
             real(kind=real128),dimension(:),intent(in) :: vel
             real(kind=real128),dimension(:),intent(in) :: coord  ! COORDINATES VECTOR 
             character(len=*),intent(in) :: log_filename ! LOG_FILENAME 
-            integer(kind=int8),intent(in) :: Natoms, Nsteps 
+            integer(kind=int16),intent(in) ::  Nsteps 
+            integer(kind=int8),intent(in) :: Natoms
             character(len=*),intent(out) :: Bin_filename
             logical,intent(out) :: bingen_flag 
             

@@ -1,8 +1,8 @@
 subroutine Parsing(Opt_vec,Gnu_opt, PARSING_FLAG,Atom_ids,Ref_f)
 use Etc_utilities_interface, only : Up_to_low,opt_flags
-use, intrinsic :: iso_fortran_env, only : compiler_version,int8
+use, intrinsic :: iso_fortran_env, only : compiler_version,int8,int16
 implicit none
-integer,intent(out) :: Ref_f 
+integer(int16),intent(out) :: Ref_f 
 logical,intent(out) :: PARSING_FLAG
 integer(kind=int8),intent(out),dimension(:),allocatable :: Atom_ids
 character(len=*),intent(out) :: Gnu_opt
@@ -25,7 +25,7 @@ logical,dimension(5) :: Gnu_flag=.false.
         allocate(character( 8 ) ::  Opt_vec(k)%label )
         Opt_vec(k)=opt_flags(label='not_set',flag=.false.)
     end do 
-    Ref_f=1
+    Ref_f=1_int16
             !Opt_vec(3)   RMSD COMPUTATION FLAG      
             !Opt_vec(4)   ATOM IDS FLAG  
             !Opt_vec(5)   GNU PLOT FOR RMSD FLAG  

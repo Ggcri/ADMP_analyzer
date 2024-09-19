@@ -12,9 +12,9 @@ module Etc_utilities_interface
     
     interface 
     subroutine Parsing(Opt_vec,Gnu_opt,PARSING_FLAG,Atom_ids,Ref_f)
-        import :: opt_flags,int8 ! INTERFACES HAS NO HOST AND RECURSIVE USE ASSOCIATION NOT PERMITTED
+        import :: opt_flags,int8,int16 ! INTERFACES HAS NO HOST AND RECURSIVE USE ASSOCIATION NOT PERMITTED
         implicit none
-        integer,intent(out) :: Ref_f 
+        integer(int16),intent(out) :: Ref_f 
         logical,intent(out) :: PARSING_FLAG
         integer(kind=int8),intent(out),dimension(:),allocatable :: Atom_ids
         character(len=77),intent(out) :: Gnu_opt

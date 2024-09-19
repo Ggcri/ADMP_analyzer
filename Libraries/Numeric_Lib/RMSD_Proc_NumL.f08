@@ -15,16 +15,17 @@
 ! ------------------------------------------------------------------------------------------------------------------------------            
 !  OUTPUT:    RMSD_VEC -> REAL(KIND=COORD),DIMENSION(SIZE(COORD)),INTENT(OUT) . RMSD VECTOR 
     
-subroutine sp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
-    use, intrinsic :: iso_fortran_env , only : real32,int8 !!! RICORDA DI CAMBIARE INT 8 A IB2 E USARE MODULO KIND
+subroutine sp_RMSD (rmsd_vec,coord,Step_Num,Natoms,RMSDErrFlag,AT_ids,REF_t)
+    use, intrinsic :: iso_fortran_env , only : real32,int8,int16,int8 !!! RICORDA DI CAMBIARE INT 8 A IB2 E USARE MODULO KIND
     implicit none
     ! DUMMY SECTION 
     real(kind=real32),intent(in), dimension(:) :: coord 
+    integer(kind=int16),intent(inout) ::     Step_Num        ! MAXIMUM STEP NUMBER 
+    integer(kind=int8),intent(inout) ::     Natoms          ! ATOM NUMBER
     integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids ! out necessary since default value must be given
-    integer(kind=int8),intent(inout) ::     Step_Num    ,&  ! MAXIMUM STEP NUMBER 
-                                            Natoms          ! ATOM NUMBER
-    integer,intent(in),optional ::  REF_t       ! TIME STEP OF REFERENCE STRUCTURE
+    integer(kind=int16),intent(in),optional ::  REF_t       ! TIME STEP OF REFERENCE STRUCTURE
     real(kind=real32),intent(out),dimension(:),allocatable :: rmsd_vec
+    logical,intent(out) :: RMSDErrFlag
 
     ! LOCAL SECTION 
     ! IDEA : DEFINIRE PUNTATORE CHE VA A PRENDERE SOLO LE 
@@ -38,6 +39,7 @@ subroutine sp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
                                                                     ! WHILE XT_VEC WILL CONTAIN THE OTHER COODINATES TO COMPARE WITH XR_VEC
     integer(kind=int8),dimension(:),allocatable :: spread_index 
     integer :: i,J=1 ! counter
+    integer :: AllocStat
     integer,dimension(:),allocatable :: slice_vec
     integer(kind=kind(At_ids)) :: I_one,I_two,I_three
 
@@ -99,8 +101,27 @@ subroutine sp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
 
 ! PART 2: OBTAINING THE RMSD VECTOR 
 
-        L2_vec=Xr_vec-Xt_vec
-        allocate(rmsd_vec( Step_Num ))
+    
+        if (  allocated(Xt_vec) ) then 
+          allocate(L2_vec, mold = Xt_vec, stat=AllocStat) 
+          if (AllocStat .ne. 0) then
+            print *, "ERROR: Allocation of L2 norm vector failed" 
+            RMSDErrFlag = .true. 
+            return
+          end if 
+          L2_vec=Xr_vec-Xt_vec
+        end if 
+
+        allocate(rmsd_vec( Step_Num ), stat = AllocStat)
+        if (AllocStat .ne. 0) then
+          deallocate(Xt_vec, Xr_vec) 
+          allocate(rmsd_vec( Step_Num ), stat = AllocStat)
+          if (AllocStat .ne. 0) then
+            print *, "ERROR: Allocation of RMSD vector failed" 
+            RMSDErrFlag = .true. 
+            return
+          end if 
+        end if 
     !$omp do 
         do i=1,Step_Num 
             rmsd_vec(i)=(norm2( L2_vec( (i-1)*Natoms*3 +1:i*Natoms*3) ))
@@ -109,24 +130,26 @@ subroutine sp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     rmsd_vec=rmsd_vec/(Natoms**2._real32)
 end subroutine sp_RMSD
 
-subroutine dp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
-    use, intrinsic :: iso_fortran_env , only : real64,int8 
+subroutine dp_RMSD (rmsd_vec,coord,Step_Num,Natoms,RMSDErrFlag,AT_ids,REF_t)
+    use, intrinsic :: iso_fortran_env , only : real64,int8,int16,int8 !!! RICORDA DI CAMBIARE INT 8 A IB2 E USARE MODULO KIND
     implicit none
     ! DUMMY SECTION 
     real(kind=real64),intent(in), dimension(:) :: coord 
-    integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids 
-    integer(kind=int8),intent(inout) ::    Step_Num    ,&  
-                                Natoms          
-    integer,intent(in),optional ::  REF_t       
+    integer(kind=int16),intent(inout) ::     Step_Num        ! MAXIMUM STEP NUMBER 
+    integer(kind=int8),intent(inout) ::     Natoms          ! ATOM NUMBER
+    integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids ! out necessary since default value must be given
+    integer(kind=int16),intent(in),optional ::  REF_t       ! TIME STEP OF REFERENCE STRUCTURE
     real(kind=real64),intent(out),dimension(:),allocatable :: rmsd_vec
-
+    logical,intent(out) :: RMSDErrFlag
     ! LOCAL SECTION 
+
     real(kind=real64),dimension(:),allocatable :: L2_vec
     real(kind=real64),dimension(:), allocatable :: Xr_vec , Xt_vec
     integer(kind=int8),dimension(:),allocatable :: spread_index 
     integer :: i,J=1 ! counter
     integer,dimension(:),allocatable :: slice_vec
     integer(kind=kind(At_ids)) :: I_one,I_two,I_three
+    integer :: AllocStat
 
       I_one   = int(1,kind(At_ids)) 
       I_two   = int(2,kind(At_ids))
@@ -190,8 +213,25 @@ subroutine dp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
 
 ! PART 2: OBTAINING THE RMSD VECTOR 
 
-        L2_vec=Xr_vec-Xt_vec
-        allocate(rmsd_vec( Step_Num ))
+        if (  allocated(Xt_vec) ) then 
+          allocate(L2_vec, mold = Xt_vec, stat=AllocStat) 
+          if (AllocStat .ne. 0) then
+            print *, "ERROR: Allocation of L2 norm vector failed" 
+            RMSDErrFlag = .true. 
+            return
+          end if 
+          L2_vec=Xr_vec-Xt_vec
+        end if 
+        allocate(rmsd_vec( Step_Num ), stat = AllocStat)
+        if (AllocStat .ne. 0) then
+          deallocate(Xt_vec, Xr_vec) 
+          allocate(rmsd_vec( Step_Num ), stat = AllocStat)
+          if (AllocStat .ne. 0) then
+            print *, "ERROR: Allocation of RMSD vector failed" 
+            RMSDErrFlag = .true. 
+            return
+          end if 
+        end if 
         !$omp do
         do i=1,Step_Num
             rmsd_vec(i)=(norm2( L2_vec( (i-1)*Natoms*3 +1:i*Natoms*3) ))
@@ -201,16 +241,17 @@ subroutine dp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
 end subroutine dp_RMSD
 
 
-subroutine qp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
-    use, intrinsic :: iso_fortran_env , only : real128,int8 
+subroutine qp_RMSD (rmsd_vec,coord,Step_Num,Natoms,RMSDErrFlag,AT_ids,REF_t)
+    use, intrinsic :: iso_fortran_env , only : real128,int8,int16,int8 !!! RICORDA DI CAMBIARE INT 8 A IB2 E USARE MODULO KIND
     implicit none
     ! DUMMY SECTION 
     real(kind=real128),intent(in), dimension(:) :: coord 
-    integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids 
-    integer(kind=int8),intent(inout) ::    Step_Num    ,&  
-                                Natoms          
-    integer,intent(in),optional ::  REF_t       
+    integer(kind=int16),intent(inout) ::     Step_Num        ! MAXIMUM STEP NUMBER 
+    integer(kind=int8),intent(inout) ::     Natoms          ! ATOM NUMBER
+    integer(kind=int8),intent(inout),dimension(Natoms),optional :: AT_ids ! out necessary since default value must be given
+    integer(kind=int16),intent(in),optional ::  REF_t       ! TIME STEP OF REFERENCE STRUCTURE
     real(kind=real128),intent(out),dimension(:),allocatable :: rmsd_vec
+    logical,intent(out) :: RMSDErrFlag
 
     ! LOCAL SECTION 
     real(kind=real128),dimension(:),allocatable :: L2_vec
@@ -219,6 +260,7 @@ subroutine qp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
     integer :: i,J=1 ! counter
     integer,dimension(:),allocatable :: slice_vec
     integer(kind=kind(At_ids)) :: I_one,I_two,I_three
+    integer :: AllocStat
 
         I_one   = int(1,kind(At_ids)) 
         I_two   = int(2,kind(At_ids))
@@ -288,8 +330,26 @@ subroutine qp_RMSD (rmsd_vec,coord,Step_Num,Natoms,AT_ids,REF_t)
 
 ! PART 2: OBTAINING THE RMSD VECTOR 
 
-        L2_vec=Xr_vec-Xt_vec
+        if (  allocated(Xt_vec) ) then 
+          allocate(L2_vec, mold = Xt_vec, stat=AllocStat) 
+          if (AllocStat .ne. 0) then 
+            print *, "ERROR: Allocation of L2 norm vector failed" 
+            RMSDErrFlag = .true. 
+            return
+          end if 
+          L2_vec=Xr_vec-Xt_vec
+        end if 
+
         allocate(rmsd_vec( Step_Num ))
+        if (AllocStat .ne. 0) then
+          deallocate(Xt_vec, Xr_vec) 
+          allocate(rmsd_vec( Step_Num ), stat = AllocStat)
+          if (AllocStat .ne. 0) then
+            print *, "ERROR: Allocation of RMSD vector failed" 
+            RMSDErrFlag = .true. 
+            return
+          end if 
+        end if 
         !$omp do
         do i=1,Step_Num
             rmsd_vec(i)=(norm2( L2_vec( (i-1)*Natoms*3 +1:i*Natoms*3) ))

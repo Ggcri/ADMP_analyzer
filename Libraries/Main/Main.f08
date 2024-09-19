@@ -8,6 +8,7 @@
             implicit none 
             ! START 
             ! USER PARSING SECTION 
+
             call Parsing(Opt_vec,Gnu_opt,PARSING_FLAG,Atom_ids,Ref_f)
             if (PARSING_FLAG .eqv. .TRUE. ) then 
                   stop 'ERROR TERMINATION VIA PARSING SUBPROGRAM'
@@ -49,17 +50,17 @@
             ! RMSD 
             if ( rmsdflag ) then 
                   if ( (atomidfl .eqv. .false.) .and. (reffrfla .eqv. .false.) ) then 
-                        call RMSD(rmsd_vec,coord,Step_Num,At_Num)
-
+                        call RMSD(rmsd_vec,coord,Step_Num,At_Num,RMSDErrFlag)
+                        print *, 'hello'
                   
                   else if ( (atomidfl .eqv. .true.) .and. (reffrfla .eqv. .false.) ) then
-                        call RMSD(rmsd_vec,coord,Step_Num,At_Num,Atom_ids) 
+                        call RMSD(rmsd_vec,coord,Step_Num,At_Num,RMSDErrFlag,Atom_ids) 
 
                   else if ( (atomidfl .eqv. .false.) .and. (reffrfla .eqv. .true.) ) then
-                        call RMSD(rmsd_vec,coord,Step_Num,At_Num,Ref_t=Ref_f) 
+                        call RMSD(rmsd_vec,coord,Step_Num,At_Num,RMSDErrFlag,Ref_t=Ref_f) 
 
                   else if ( (atomidfl .eqv. .true.) .and. (reffrfla .eqv. .true.) ) then
-                        call RMSD(rmsd_vec,coord,Step_Num,At_Num,Atom_ids,Ref_f) 
+                        call RMSD(rmsd_vec,coord,Step_Num,At_Num,RMSDErrFlag,Atom_ids,Ref_f) 
                   end if
 
                   if (gnupltfl) then 

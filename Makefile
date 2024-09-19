@@ -1,18 +1,18 @@
-# DESTINATION DIRECTORY (Allow the user to specify)
+# DESTINATION DIRECTORY (User defined)
 DESTDIR ?=/Users/luigicrisci/Documents/Phd_Courses/Bloino/Project/Backup/Proj_copy/Exe 
-# IMMEDIATE EVALUATED VARIABLE
+# IMMEDIATE EVALUATED VARIABLE THROUGH :=
 DESTDIR := $(patsubst %/,%,$(DESTDIR))
 
 # FORTRAN COMPILER
 FC = gfortran
 
-# COMPILER OPTIONS
+# COMPILER OPTIONS PREPROCESSING
 CPPFLAGS ?= -cpp
 
 # PROGRAM NAME
 PROG =Dynamic_analyzer
 
-# PARALLEL OPTIONS (if any)
+# PARALLEL OPTIONS 
 PARALL ?=
 
 # DEFAULT GOAL
@@ -29,8 +29,9 @@ ETC_LIB = $(CURDIR)/Libraries/Etc
 MAIN_DIR = $(CURDIR)/Libraries/Main
 
 # EXTRA FLAGS FOR FORTRAN COMPILER
-FFLAGS = -O3 -fcheck=all
-
+FFLAGS = -O3 -fcheck=all -pedantic -Wall -Wno-maybe-uninitialized
+# For the last key check the following 
+# https://stackoverflow.com/questions/56261880/fortran-re-allocation-on-assignment-and-gfortran-warnings
 # Define commands based on OS
 ifeq ($(OS),Windows_NT)
     # Windows commands
@@ -58,7 +59,7 @@ VPATH = $(IO_LIB)$(PATH_SEPARATOR)$(NUM_LIB)$(PATH_SEPARATOR)$(ETC_LIB)$(PATH_SE
 .PHONY: all clean distclean uninstall install
 
 # OBJECTS
-OBJECTS = Kind_NumL_MOD.o Interfaces_EtcL_MOD.o Declaration_EtcL_MOD.o Parsing_EtcL_SUB.o \
+OBJECTS = Kind_NumL_MOD.o Declaration_EtcL_MOD.o Interfaces_EtcL_MOD.o  Parsing_EtcL_SUB.o \
           Gnuplot_EtcL_SUB.o Up_to_low_EtcL_FUN.o ADMP_DecPreprocs_IodL_MOD.o \
           ADMP_INPUT_IodL_MOD.o ADMP_INPUT_IodL_SUBMOD.o ADMP_OUTPUT_IodL_MOD.o \
           BinGen_IodL_SUBR.o Preprocs_NumL_MOD.o Interfaces_NumL_MOD.o RMSD_Proc_NumL.o Main.o

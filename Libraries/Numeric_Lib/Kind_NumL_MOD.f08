@@ -10,4 +10,9 @@ integer,parameter ::  &
                  i4b=selected_int_kind(9), &
                  i2b=selected_int_kind(4), &
                  i1b=selected_int_kind(2)
+
+
+integer, parameter :: ShortInt = i2b 
+integer, parameter :: LongInt = i4b 
+
 end module KIND_MOD
