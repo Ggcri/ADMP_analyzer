@@ -1,4 +1,5 @@
 *.mod
 *.o
 *.smod
-testsection/FinalTest/admp_nma_b3lyp_631gdp_300k_5ps_ts02_default_emass01.log
+testsection
+
