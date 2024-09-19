@@ -47,18 +47,9 @@ subroutine sGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,x_spacing,x_val)
 
     ! START
     Gnu_Flag=.FALSE. 
-    ! COMMENTED SECTION
-    ! call get_environment_variable('HOME',status=gnu_stat)
-    ! if (gnu_stat .eq. 1) then
-        ! print *, 'ERROR : gnuplot environment variable does not exist ' 
-        ! Gnu_Flag=.TRUE.
-        ! return
-    ! end if
     call date_and_time(date,time)
     date=(date(1:4)//'_'//date(5:6)//'_'//date(7:8))
-    ! print *, date//'iii'
     time=(time(1:2)//'_'//time(3:4))
-    ! print *,time//'iii'
     G_script_file='Gpscript_'//date//'_'//time//'.plt' 
     open(newunit=unit_id,file=G_script_file,status='unknown',action='write',iostat=ios)
     if (ios .ne. 0) then 
@@ -165,27 +156,27 @@ end subroutine sGnu_plot
 subroutine dGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,x_spacing,x_val)
     use, intrinsic :: iso_fortran_env, only : real64
     implicit none 
-    real(kind=real64),intent(in),dimension(:) :: fx      ! VECTOR WITH F(X) VALUES
-    logical,intent(out) :: Gnu_Flag         ! SIGNALING FLAG FOR SUBROUTINE EXCEPTIONS HANDLING 
-    character(len=*),intent(in) ::  Gnu_opt ! STRING CONTAINING USER DEFINED GNU OPTIONS 
-    logical,intent(in) :: Op_flag           ! OPERATIVE MODE FLAG :
-                                            ! IF TRUE THE USER GIVE IN INPUT SOME GNU OPTIONS
-                                            ! IF FALSE DEFAULT MODE SELECTED 
-    real,intent(in),optional :: Start_x, &  ! STARTING VALUE OF X (1 IF NOT PRESENT) 
-                                x_spacing     ! SPACING BETWEEN X VALUES (1 IF NOT PRESENT)
+    real(kind=real64),intent(in),dimension(:) :: fx      
+    logical,intent(out) :: Gnu_Flag         
+    character(len=*),intent(in) ::  Gnu_opt 
+    logical,intent(in) :: Op_flag           
+                                            
+                                            
+    real,intent(in),optional :: Start_x, &  
+                                x_spacing     
                                 
-    real(kind=real64),intent(in),dimension(:),optional :: x_val   ! VECTOR WITH X VALUES 
+    real(kind=real64),intent(in),dimension(:),optional :: x_val   
     
     ! LOCAL
     
-    character(len=256) :: Err_msg='' ! ERROR MESSAGE FOR FILE CONNECTION EXCEPTION HANDLING  
+    character(len=256) :: Err_msg='' 
     
-    character(len=28) :: G_script_file=' '  ! .GP SCRIPT FILE NAME
+    character(len=28) :: G_script_file=' '  
     
-    integer ::  gnu_stat,   &   ! CONTROL VARIABLE FOR EXECUTE COMMAND LINE CONNECTED TO GNUPLOT EXECUTION
-                unit_id,    &   ! UNIT IDENTIFIER OF SCRIPT.gp FILE
-                ios,        &   ! CONTROL VARIABLE FOR OPEN STATEMENT
-                i               ! COUNTER 
+    integer ::  gnu_stat,   &   
+                unit_id,    &   
+                ios,        &   
+                i               
                 
     character(len=9) :: date
     character(len=5) :: time 
@@ -201,8 +192,8 @@ subroutine dGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,x_spacing,x_val)
                                     y_lab,      &               
                                     x_un,       &
                                     y_un        
-    integer :: lt=1 ! LINE COLOR TYPE       
-    real    :: lw=2.5 ! LINE WIDTH 
+    integer :: lt=1 
+    real    :: lw=2.5 
     logical :: ExistStat=.false. 
 
     
@@ -210,18 +201,9 @@ subroutine dGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,x_spacing,x_val)
 
     ! START
     Gnu_Flag=.FALSE. 
-    ! COMMENTED SECTION
-    ! call get_environment_variable('HOME',status=gnu_stat)
-    ! if (gnu_stat .eq. 1) then
-        ! print *, 'ERROR : gnuplot environment variable does not exist ' 
-        ! Gnu_Flag=.TRUE.
-        ! return
-    ! end if
     call date_and_time(date,time)
     date=(date(1:4)//'_'//date(5:6)//'_'//date(7:8))
-    ! print *, date//'iii'
     time=(time(1:2)//'_'//time(3:4))
-    ! print *,time//'iii'
     G_script_file='Gpscript_'//date//'_'//time//'.plt' 
     open(newunit=unit_id,file=G_script_file,status='unknown',action='write',iostat=ios)
     if (ios .ne. 0) then 
@@ -329,27 +311,27 @@ end subroutine dGnu_plot
 subroutine qGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,x_spacing,x_val)
     use, intrinsic :: iso_fortran_env, only : real128
     implicit none 
-    real(kind=real128),intent(in),dimension(:) :: fx      ! VECTOR WITH F(X) VALUES
-    logical,intent(out) :: Gnu_Flag         ! SIGNALING FLAG FOR SUBROUTINE EXCEPTIONS HANDLING 
-    character(len=*),intent(in) ::  Gnu_opt ! STRING CONTAINING USER DEFINED GNU OPTIONS 
-    logical,intent(in) :: Op_flag           ! OPERATIVE MODE FLAG :
-                                            ! IF TRUE THE USER GIVE IN INPUT SOME GNU OPTIONS
-                                            ! IF FALSE DEFAULT MODE SELECTED 
-    real,intent(in),optional :: Start_x, &  ! STARTING VALUE OF X (1 IF NOT PRESENT) 
-                                x_spacing     ! SPACING BETWEEN X VALUES (1 IF NOT PRESENT)
+    real(kind=real128),intent(in),dimension(:) :: fx      
+    logical,intent(out) :: Gnu_Flag         
+    character(len=*),intent(in) ::  Gnu_opt 
+    logical,intent(in) :: Op_flag           
+                                            
+                                            
+    real,intent(in),optional :: Start_x, &  
+                                x_spacing     
                                 
-    real(kind=real128),intent(in),dimension(:),optional :: x_val   ! VECTOR WITH X VALUES 
+    real(kind=real128),intent(in),dimension(:),optional :: x_val   
     
     ! LOCAL
     
-    character(len=256) :: Err_msg='' ! ERROR MESSAGE FOR FILE CONNECTION EXCEPTION HANDLING  
+    character(len=256) :: Err_msg='' 
     
-    character(len=28) :: G_script_file=' '  ! .GP SCRIPT FILE NAME
+    character(len=28) :: G_script_file=' '  
     
-    integer ::  gnu_stat,   &   ! CONTROL VARIABLE FOR EXECUTE COMMAND LINE CONNECTED TO GNUPLOT EXECUTION
-                unit_id,    &   ! UNIT IDENTIFIER OF SCRIPT.gp FILE
-                ios,        &   ! CONTROL VARIABLE FOR OPEN STATEMENT
-                i               ! COUNTER 
+    integer ::  gnu_stat,   &   
+                unit_id,    &   
+                ios,        &   
+                i               
                 
     character(len=9) :: date
     character(len=5) :: time 
@@ -376,9 +358,7 @@ subroutine qGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,x_spacing,x_val)
     Gnu_Flag=.FALSE. 
     call date_and_time(date,time)
     date=(date(1:4)//'_'//date(5:6)//'_'//date(7:8))
-    ! print *, date//'iii'
     time=(time(1:2)//'_'//time(3:4))
-    ! print *,time//'iii'
     G_script_file='Gpscript_'//date//'_'//time//'.plt' 
     open(newunit=unit_id,file=G_script_file,status='unknown',action='write',iostat=ios)
     if (ios .ne. 0) then 

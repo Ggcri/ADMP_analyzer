@@ -1,5 +1,5 @@
 # DESTINATION DIRECTORY (User defined)
-DESTDIR ?=/Users/luigicrisci/Documents/Phd_Courses/Bloino/Project/Backup/Proj_copy/Exe 
+DESTDIR ?=/Users/luigicrisci/Documents/Phd_Courses/Bloino/Project/Backup/Proj_copy/testsection/FinalTest
 # IMMEDIATE EVALUATED VARIABLE THROUGH :=
 DESTDIR := $(patsubst %/,%,$(DESTDIR))
 

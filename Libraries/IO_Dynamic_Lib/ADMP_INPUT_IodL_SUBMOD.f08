@@ -136,7 +136,7 @@ module procedure dpG_Log_Input
 
 
     ! DUMMY INIZIALIZATION
-    At_Num=0_int8 ; Step_Num=0_int8
+    At_Num=0_int8 ; Step_Num=0_int16
     IO_INPUT_ERROR=.FALSE. 
     ! Changed data since obsolescent
     ! data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
@@ -212,7 +212,7 @@ module procedure dpG_Log_Input
         do
             read(F_unit,'(a)',iostat=ios) line 
                 if (index(line,'MW Cartesian velocity:') /= 0) then
-                    Step_Num=Step_Num+1_int8
+                    Step_Num=Step_Num+1_int16
                     do i=1,At_Num
                         read(F_unit,'(a)') line
                         read(line(11:),'(2x,d20.12,2(4x,d20.12))',iostat=ios) temp_vel(k:)
@@ -252,7 +252,7 @@ module procedure spG_Log_Input
 
 
     ! DUMMY INIZIALIZATION
-    At_Num=0_int8 ; Step_Num=0_int8
+    At_Num=0_int8 ; Step_Num=0_int16
     IO_INPUT_ERROR=.FALSE. 
     ! data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
     trig1 = 'Charge' ; trig2 = 'Maximum' ; trig3 = 'Cartesian coordinates:' ; trig4 = 'NAtoms='
@@ -326,7 +326,7 @@ module procedure spG_Log_Input
         do
             read(F_unit,'(a)',iostat=ios) line 
                 if (index(line,'MW Cartesian velocity:') /= 0) then
-                    Step_Num=Step_Num+1_int8
+                    Step_Num=Step_Num+1_int16
                     do i=1,At_Num
                         read(F_unit,'(a)') line
                         read(line(11:),'(2x,d20.12,2(4x,d20.12))',iostat=ios) temp_vel(k:)
@@ -366,7 +366,7 @@ module procedure qpG_Log_Input
 
 
     ! DUMMY INIZIALIZATION
-    At_Num=0_int8 ; Step_Num=0_int8
+    At_Num=0_int8 ; Step_Num=0_int16
     IO_INPUT_ERROR=.FALSE. 
     ! data trig1,trig2,trig3,trig4/'Charge','Maximum','Cartesian coordinates:','NAtoms='/ 
     trig1 = 'Charge' ; trig2 = 'Maximum' ; trig3 = 'Cartesian coordinates:' ; trig4 = 'NAtoms='
@@ -440,7 +440,7 @@ module procedure qpG_Log_Input
         do
             read(F_unit,'(a)',iostat=ios) line 
                 if (index(line,'MW Cartesian velocity:') /= 0) then
-                    Step_Num=Step_Num+1_int8
+                    Step_Num=Step_Num+1_int16
                     do i=1,At_Num
                         read(F_unit,'(a)') line
                         read(line(11:),'(2x,d20.12,2(4x,d20.12))',iostat=ios) temp_vel(k:)
