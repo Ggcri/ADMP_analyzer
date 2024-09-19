@@ -46,6 +46,7 @@
             end select
 
             ! INPUT SECTION END 
+
             ! NUMERIC SECTION 
             ! RMSD 
             if ( rmsdflag ) then 
@@ -64,8 +65,7 @@
                   end if
 
                   if (gnupltfl) then 
-                        ! call Gnu_plot(rmsd_vec,Gnu_Flag,gnupltfl,Gnu_opt)
-                        ! GENERIC INTERFACES PER EVITARE TYPE MISMATCH
+                         call Gnu_plot(rmsd_vec,Gnu_Flag,gnupltfl,Gnu_opt)
                         if (Gnu_Flag) stop 'ERROR TERMINATION VIA GNU_PLOT SUBPROGRAM'
 
                   end if 

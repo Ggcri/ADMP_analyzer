@@ -20,10 +20,13 @@ module Etc_utilities_interface
         character(len=77),intent(out) :: Gnu_opt
         type(opt_flags),dimension(:),intent(out) :: Opt_vec 
         end subroutine 
+    end interface
 
-        subroutine Gnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,space_dist,x_val)
+    interface Gnu_plot
+        subroutine sGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,space_dist,x_val)
+            use, intrinsic :: iso_fortran_env, only : real32
             implicit none 
-            real,intent(in),dimension(:) :: fx            ! VECTOR WITH F(X) VALUES
+            real(kind=real32),intent(in),dimension(:) :: fx            ! VECTOR WITH F(X) VALUES
             logical,intent(out) :: Gnu_Flag               ! SIGNALING FLAG FOR EXCEPTIONS HANDLING 
             character(len=*),intent(in) ::  Gnu_opt       ! STRING CONTAINING USER DEFINED GNU OPTIONS 
             logical,intent(in) :: Op_flag                 ! OPERATIVE MODE FLAG :
@@ -32,8 +35,46 @@ module Etc_utilities_interface
             real,intent(in),optional :: Start_x, &        ! STARTING VALUE OF X (1 IF NOT PRESENT) 
                                         space_dist        ! SPACING BETWEEN X VALUES (1 IF NOT PRESENT)
                                         
-            real,intent(in),dimension(:),optional :: x_val   ! VECTOR WITH X VALUES 
-        end subroutine Gnu_plot
-    end interface
+            real(kind=real32),intent(in),dimension(:),optional :: x_val   ! VECTOR WITH X VALUES 
+        end subroutine sGnu_plot
+
+
+
+        subroutine dGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,space_dist,x_val)
+            use, intrinsic :: iso_fortran_env, only : real64
+            implicit none 
+            real(kind=real64),intent(in),dimension(:) :: fx            
+            logical,intent(out) :: Gnu_Flag               
+            character(len=*),intent(in) ::  Gnu_opt       
+            logical,intent(in) :: Op_flag                 
+                                                          
+                                                          
+            real,intent(in),optional :: Start_x, &        
+                                        space_dist        
+                                        
+            real(kind=real64),intent(in),dimension(:),optional :: x_val   
+        end subroutine dGnu_plot
+
+
+
+
+        subroutine qGnu_plot(fx,Gnu_Flag,Op_flag,Gnu_opt,Start_x,space_dist,x_val)
+            use, intrinsic :: iso_fortran_env, only : real128
+            implicit none 
+            real(kind=real128),intent(in),dimension(:) :: fx            
+            logical,intent(out) :: Gnu_Flag               
+            character(len=*),intent(in) ::  Gnu_opt       
+            logical,intent(in) :: Op_flag                 
+                                                          
+                                                          
+            real,intent(in),optional :: Start_x, &        
+                                        space_dist        
+                                        
+            real(kind=real128),intent(in),dimension(:),optional :: x_val   
+        end subroutine qGnu_plot
+
+
+        
+    end interface Gnu_plot
 
 end module Etc_utilities_interface

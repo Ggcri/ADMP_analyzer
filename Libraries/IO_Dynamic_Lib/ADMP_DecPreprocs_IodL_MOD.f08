@@ -12,10 +12,10 @@ implicit none
 #elif (PREC == 1)
    real(kind=real32),dimension(:),allocatable :: Coord     ! ATOM COORDINATES 
    real(kind=real32),dimension(:),allocatable :: vel        ! MASS SCALED VELOCITY          
-    #ifndef (PREC) 
+#endif       
+#else 
    real(kind=real64),dimension(:),allocatable :: Coord     ! ATOM COORDINATES 
    real(kind=real64),dimension(:),allocatable :: vel        ! MASS SCALED VELOCITY   
-#endif       
 #endif
 ! G_LOG_CHECK SUBROUTINE ACTUAL ARGUMENTS 
 logical ::  IO_CHECK_ERROR=.FALSE.,  &  ! FATAL ERROR FLAG FOR G_LOG_CHECK_SUBROUTINE 

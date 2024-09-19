@@ -9,9 +9,9 @@ implicit none
    real(kind=real128),dimension(:),allocatable :: rmsd_vec     ! ATOM COORDINATES 
 #elif (PREC == 1)
    real(kind=real32),dimension(:),allocatable :: rmsd_vec     ! ATOM COORDINATES 
-    #ifndef (PREC) 
-   real(kind=real64),dimension(:),allocatable :: rmsd_vec     ! ATOM COORDINATES 
 #endif       
+#else
+   real(kind=real64),dimension(:),allocatable :: rmsd_vec     ! ATOM COORDINATES 
 #endif
 
 end module Numeric_preprocessing
