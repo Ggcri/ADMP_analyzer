@@ -1,5 +1,5 @@
 # DESTINATION DIRECTORY (User defined)
-DESTDIR ?=/Users/luigicrisci/Documents/Phd_Courses/Bloino/Project/Backup/Proj_copy/testsection/FinalTest
+DESTDIR ?=$(CURDIR)/Exe
 # IMMEDIATE EVALUATED VARIABLE THROUGH :=
 DESTDIR := $(patsubst %/,%,$(DESTDIR))
 
@@ -83,6 +83,7 @@ else
 	$(MKDIR_P) $(DESTDIR)
 	$(CP) "$(EXECUTABLE)" "$(DESTDIR)/$(EXECUTABLE)"
 	$(CHMOD) "$(DESTDIR)/$(EXECUTABLE)"
+	$(MAKE) distclean
 endif
 
 # Uninstall rule
